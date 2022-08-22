@@ -440,7 +440,7 @@
 
     <script>
 
-        // document.querySelectorAll(`option`).forEach(o => o.disabled = false);
+        document.querySelectorAll(`option`).forEach(o => o.disabled = false);
 
         const GRID_SCALE = 50.0;
 
@@ -496,6 +496,7 @@
                 document.querySelector('.reset-level').classList.add('hidden');
                 rotH = 0.0;
                 rotV = 0.0;
+                startConfetti();
             } else {
                 rotH = 45.0;
                 rotV = -30.0;
@@ -525,6 +526,7 @@
         }
 
         function onLevelSelect() {
+            stopConfetti();
             setUpLevel(document.getElementById('level-select').value);
         }
 
@@ -564,8 +566,11 @@
                 setUpLevel(nextLevel);
                 if (nextLevel == 'cake') {
                     tada();
+                    // setTimeout(() => stopConfetti(), 4000);
                 } else {
                     chord();
+                    startConfetti();
+                    setTimeout(() => stopConfetti(), 1000);
                 }
             } else {
                 beep();
@@ -624,6 +629,141 @@
             var snd = new Audio("data:audio/mp3;base64,//OAxAAAAAAAAAAAAFhpbmcAAAAPAAAAHgAADdIACAgIHBwcJCQkLi4uLj4+PkhISFxcXFxiYmJqampycnJyenp6goKCiIiIiJCQkJiYmJ6enp6mpqaurq60tLS0vLy8wsLCysrKytLS0tjY2ODg4ODo6Oju7u729vb2/v7+////AAAAOUxBTUUzLjEwMAJTAAAAAAAAAAAUICQDPCIAACAAAA3SpnrMDwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/zQMQAE3r+KAFGEABPTCCDkyenk71ojDwAQx77Rn1O6HO8hCTkI3RpCfz///f+pGneQkhPzkaehCNoTOd/oRjgAAynehDnpndDnf5yEq///5zugGd+JDnxACBySSyWy0xiR2Boc0Ul//OQxA02w4qiXZh4Ath/TYltlWoPPm/TXI4kw0xHxh81A8vfgcJrqgjKIPAlpPlKQhWFwH4H+IfiCXx8woWyqOJo4BzAIi7a0PVanc6HuwkyO9vJQOMrilPIvhOEINNmUFFWmCRnOvWV8kskLMCkOPWPdCGtnrlOz4e/WnsdkiTxK2y9bJm853N5VnU7kyQNTUbDKli/Gp7Wgvot2R/GcHONFsxMPtmP6avf53S2Y76dhxqG6iXme1mexZ7Pns4426sG2a4zXHpAiUea///////+6QVapn3/gU2ZZlp3uYCibigJSTV5LezyspbicsMKLPPqemMagxYMXGnWiovF4uoEODGw//NAxCodKpKa/c+YAATg0RUZGt11JJa0Wu10n1JPW7OgtGu7KZ0kHN3dJJ90lOgls/vTSnEFKqOMtTLakyv1P/60fayJqYiQnRKEhUO4UtK69a1xpRggdQ5XM1RQEI5hW1Lp6Yw038//81DEEB6TSoJQyNtV4We555W7T/wJexxwt9wzwucpaeB5ZUbi5IrgPKXcNd/l4575oCYmIpZUW5MYLSIkUkQG5rz76v+lL5Kef47UW0xBQGDhPPznn9b9r+rU5q8IqOqZcNVHE9G3XWpXfqvpLRWt2QNU7HjhJpVy26XISuTeITrG//OAxAot0rq6XNvlG7WbVitZpdQ3WmZiOzEf+pzdqclErS8MAIhwZMajCMUNpRzAhK8SPH1ui6aN//+VSK9OOasVj9UOaaPIxUEhJOSFEFH8QkhROXz17ClxeBeI/fsDOoGNwtKxJ5EqJWq5SqZcqZTKVeXbYp4D9kWFWlEulEeXhHnAcBex4GTFkAGyGnCoj2Vy0Vy0WyqWyqfPmpsamxql9f//OPXMThiicRtDIyLLBK6JiNz+utR+lXJPcUg0lykBFKq6RYfcgYWS1ycsaf/zUMQVHrqWml1IoADTMiLKAyKwOgGQMD9TqJUZoLWC4e2ZFS1OpJlqVtda20k3U1mr1upTdSmTq0lMTpHJmJVLrEQMDxfLpeWapFoyJWsjBco403Wte3vboUWZNbq3W6DIa5HGjztYQeYFCg9tdl7bk9RWV4d4hjCGpICGHI2o5BT/85DEDzXzIqbVj8gAthqq1+cYgQR46WBSRQ1RKTeMH5iWaVQLAe5IIwy1AK9fwDgL3ng7kiK6+4XLoqkqYJD8u4FQJNqk+KR+XwDIXRbVh3be8qsvy5lSYRi5TU7/UMfp8Pxx5Q2sbfaf5+kschmSSm5LnSgd5SJz/3/663UMarQ47iyFP09P8XmLEYsLedmZaREqtymlU9HcpmRZ+xqBP73+c5huxT24fv3O0nJz7+6/ZZGbE1YlVeazpbtLc3ha1z92tf+9Y75/8t9Ggh/UBwqd/mpKcu1hGMjYbjC3xNOnRcVklGz+duqdzogVCrookApOSYlI5S+dMRMBji1R+vRZRx//8zDELxgCksZfy2gCWii+1VNPX3upRNev9b/ZX+wtG/6iSCdjJNd/dtfX/+k/WvlbkLYIGB5qi7kNcSn2aVVodWxHc45EAqIiIiITCz//80DEEBiZ7vL+MlBqpJpO3lwTfT7iA3t9y6IiAaGoRHvm4QgUD8XFxc9pLeXFxcG4NwVu6IiIiIKALiOhiJSI/fCIiP3f92IQP3Lu7//IOhcHAQBAEAw+6Iw+f///wxVWyvyCRQQKGf/zQMQIGLr2xj6j1YTo0qnWtdakVlAbIoUDPKiCHy85gQYMoyxf6SSlo4/skp2ZaLffrY1ZSSST//xjFrWtIVIeoyuTyuVyuVzCwxXr2sWu61VWszhE//RBcdm/9f///////9Ri70cq//NAxAAUmvrSXjBaZm7YARAkKE3AiPqf5m5Osmn1AMejxjiZqUSjz6lI1F8r//7dIt//+ieEKXmDMOE4dnjM8WoGSC0jJD/WSn1/Y2PW///r2bt/6X///rNVGu5qLFU1dtgM2MUvgEb/80DECBRZ7s48S9qq8NPT2pRJHV4Z/5QZF4U7xTiSFyzRXa7tWpisaT/9baZ1Kz4yF///PBBl1hLC4ZoIosx1RxlFSlfuo4Jih/8x/6Gpt/DGgo/+QSqbaoyozC4AJyphLJZdrNza8v/zMMQRFIG+5j7CFNY3HbQGw7k5vPPP/enxcXPcDhN439Ed3LATCP9EQUSRcOw/DwUTl3F3p3d3v/2DEdsrcwwgFQLwkRDP/Hf1M///mv/zQMQAE9nuyrbbznhEiXEJHOgCk7rLLWSQ6XRk6Ec6+u0yIpDv8+4Fbdt/tajtnWa1r/WsEuoln1oVdfOOfQ446php181f+po1BrafQbBci3/Vh0TPT/lP+v/yVbUMjXi6o5bAe71P//NAxAsU4v7iXmPUkmN6lwi8oekv/+PnTTWkY2hYo2Lb+oddR2o7BHE7//qYsYzzkVrf9YkB2dp9wbl/53Cl/+qFu//+rXz06TNb1XX9+3+rMS3pToWUDMxQ2mu2AAh9C2YpJGOopSb/8zDEEhSx8t5eKs5WRPAA1nXNYFQwrr9tQsIRn9VMPruhJ1Gx9kORv/xMSsp7IdaOgVLTq/vQNnf6WG5AVNtDmfWt94069iFjkHZ3/kH/80DEABNR8spcaYuiUIhETLhz8BFqaBfU81BdPFI8kvsF5ZNRuXAu4sWmeh7F4WJt/VfXqdazXWzoLS/9MaknEiwAjIKYRPMTUw+ruyVZFAJ+/8R6f8Vv13qVcJNxsw1At76vXPAsBf/zQMQNFIHytZxbzqrUViWf7B1T4fRcH6XreZscxJxyhcFf6sk2aYQtc5zDWMdV/6OBxZyks43NIDkUDw6KTi7/5otb/45FN/XfILZR/IXvv5F1CpRxSPSQQHuxxd3EjGw2NV9wRlWm//MwxBYUifLSXmpFouOIShFy8eapDMERdI7f3au/UgrX/r9lUhsdl8C07Z7EwkxaskaavzId+yU2DEvGvy65SzQv6P/+OiqGiqp0GMRQ//NAxAQTqe7OXlGFosizcYBLz9jQxBeUZGnInCmzyx4UYqpEd7UWTDIXin9VSbU53fPakxP/5UNKYZEot0TkVigWdRTp7477NX4Nuj5ZjHugMATUwl3/bViajVFK9JAA2fRL+iYisw//8zDEEBN58tZeaYWiNlL7CQuZHTpLEeswezu9AzJovv+tT6qDKcxOJpdk0m/6h/HLNOPEFJPKkSMoG7Vfw5TXu/tGcU/Q6hCN/CB0mIT/80DEAxR6VspeW87GjMircAC1ZVRr28gARekqjnxndI8N+MBHPdIUywmR0OUdMBL86imXUyaahHn//3QLjLlkG6OyFidTzJUer1zRUe3/Q70/1/PzCqlFqnnmlSCBKZCJr6rFzKzi7P/zQMQMFNHynXJ8jrAHtmpJaXOUkgGYpLSUOodh5Q1z9Sq0lFARgJkt7o66Go7sljj2a+//mhCBYhZGRKKcNlM0Zuuo5/oiIYRJDDkf//r9P9tv+hVQmoNQtyORgNoY+p4dUYi5E8Gu//MwxBMT+fLOXlILho554gxikXG1ZzzJMFQd/etGO3Oq2Zp+z1M2i2AgI6rtG6xCjxsT3fpQwi3/OoTFABIvkGytvWfROiW7/9Z8GoUw//NAxAQUSfK6XmoUxMzxtgB7c6lsLoenMUq2zEJw7MkgNa8v31mlQyG/6qayKqqaioe75qT/67isFtx/o6T1IR4elX/5N/7RiNzqA4nUo3WRe6sTCkUfbp/J1UwIhBQo8PAdfXrreoj/80DEDRTB9qpces74O06IslsWtf4JXi9K2XJnEtvqmZ1BQKj31///ERMvVNq7uuZ464486mI1IonXUovZ1idJJ1f/IP/2MChJBLcWZyPYxN71EDSMzpTYubwm/1bePphGr3KLSv1nKf/zMMQVFVHyrlx6hRDN2qwP2wfuqNTlgiU5zaAiJqeppiKqNMnMarsmrdNHowvDU0ONZzjFIdxbgTg/8gW//QC+zzNCV/stZ2VradTlVf/zQMQAFVnutjx6VHJxuyunDDUCAiacN5kU0cmAcOS7DKy7vgbYuXsPjZqjSDpnTSoSiN0d9DUMdqqaruXLIbd1Jf/QXibFcx0PpJVHrFzTSn+hf/0i850Ia77u2d2dGZq9SiDTOCEm//NAxAUTeVKBfEjKcCWxiqhjBEcBJqN1VYCcBJYYUCdVLvzCI4PP6lKXob1KVDGe39HvAUcYHRjyWCpYO50O5Y9LCV3/q/rBUNFn5arxE+WnQaBpZ1VMQU1FMy4xMDBVVVVVVVVVVVX/8xDEEgAAAfwAAAAAVVVVVVVVVVVVVVVVVQ==");
             snd.play();
         }
+
+
+        // CONFETTI
+        // FROM https://www.cssscript.com/confetti-falling-animation/
+
+        var maxParticleCount = 150; //set max confetti count
+        var particleSpeed = 2; //set the particle animation speed
+        var startConfetti; //call to start confetti animation
+        var stopConfetti; //call to stop adding confetti
+        var toggleConfetti; //call to start or stop the confetti animation depending on whether it's already running
+        var removeConfetti; //call to stop the confetti animation and remove all confetti immediately
+
+        (function () {
+            startConfetti = startConfettiInner;
+            stopConfetti = stopConfettiInner;
+            toggleConfetti = toggleConfettiInner;
+            removeConfetti = removeConfettiInner;
+            var colors = ["DodgerBlue", "OliveDrab", "Gold", "Pink", "SlateBlue", "LightBlue", "Violet", "PaleGreen", "SteelBlue", "SandyBrown", "Chocolate", "Crimson"]
+            var streamingConfetti = false;
+            var animationTimer = null;
+            var particles = [];
+            var waveAngle = 0;
+
+            function resetParticle(particle, width, height) {
+                particle.color = colors[(Math.random() * colors.length) | 0];
+                particle.x = Math.random() * width;
+                particle.y = Math.random() * height - height;
+                particle.diameter = Math.random() * 10 + 5;
+                particle.tilt = Math.random() * 10 - 10;
+                particle.tiltAngleIncrement = Math.random() * 0.07 + 0.05;
+                particle.tiltAngle = 0;
+                return particle;
+            }
+
+            function startConfettiInner() {
+                var width = window.innerWidth;
+                var height = window.innerHeight;
+                window.requestAnimFrame = (function () {
+                    return window.requestAnimationFrame ||
+                        window.webkitRequestAnimationFrame ||
+                        window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame ||
+                        window.msRequestAnimationFrame ||
+                        function (callback) {
+                            return window.setTimeout(callback, 16.6666667);
+                        };
+                })();
+                var canvas = document.getElementById("confetti-canvas");
+                if (canvas === null) {
+                    canvas = document.createElement("canvas");
+                    canvas.setAttribute("id", "confetti-canvas");
+                    canvas.setAttribute("style", "display:block;z-index:999999;pointer-events:none;position:absolute;top:0;");
+                    document.body.appendChild(canvas);
+                    canvas.width = width;
+                    canvas.height = height;
+                    window.addEventListener("resize", function () {
+                        canvas.width = window.innerWidth;
+                        canvas.height = window.innerHeight;
+                    }, true);
+                }
+                var context = canvas.getContext("2d");
+                while (particles.length < maxParticleCount)
+                    particles.push(resetParticle({}, width, height));
+                streamingConfetti = true;
+                if (animationTimer === null) {
+                    (function runAnimation() {
+                        context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+                        if (particles.length === 0)
+                            animationTimer = null;
+                        else {
+                            updateParticles();
+                            drawParticles(context);
+                            animationTimer = requestAnimFrame(runAnimation);
+                        }
+                    })();
+                }
+            }
+
+            function stopConfettiInner() {
+                streamingConfetti = false;
+            }
+
+            function removeConfettiInner() {
+                stopConfetti();
+                particles = [];
+            }
+
+            function toggleConfettiInner() {
+                if (streamingConfetti)
+                    stopConfettiInner();
+                else
+                    startConfettiInner();
+            }
+
+            function drawParticles(context) {
+                var particle;
+                var x;
+                for (var i = 0; i < particles.length; i++) {
+                    particle = particles[i];
+                    context.beginPath();
+                    context.lineWidth = particle.diameter;
+                    context.strokeStyle = particle.color;
+                    x = particle.x + particle.tilt;
+                    context.moveTo(x + particle.diameter / 2, particle.y);
+                    context.lineTo(x, particle.y + particle.tilt + particle.diameter / 2);
+                    context.stroke();
+                }
+            }
+
+            function updateParticles() {
+                var width = window.innerWidth;
+                var height = window.innerHeight;
+                var particle;
+                waveAngle += 0.01;
+                for (var i = 0; i < particles.length; i++) {
+                    particle = particles[i];
+                    if (!streamingConfetti && particle.y < -15)
+                        particle.y = height + 100;
+                    else {
+                        particle.tiltAngle += particle.tiltAngleIncrement;
+                        particle.x += Math.sin(waveAngle);
+                        particle.y += (Math.cos(waveAngle) + particle.diameter + particleSpeed) * 0.5;
+                        particle.tilt = Math.sin(particle.tiltAngle) * 15;
+                    }
+                    if (particle.x > width + 20 || particle.x < -20 || particle.y > height) {
+                        if (streamingConfetti && particles.length <= maxParticleCount)
+                            resetParticle(particle, width, height);
+                        else {
+                            particles.splice(i, 1);
+                            i--;
+                        }
+                    }
+                }
+            }
+        })();
     </script>
 </body>
 
