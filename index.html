@@ -58,6 +58,9 @@
         .node {
             transform-style: preserve-3d;
             cursor: pointer;
+            color: gray;
+            font-weight: bold;
+            font-size: 30px;
         }
 
         .node:hover {
@@ -101,7 +104,8 @@
             align-items: center;
             width: 100%;
             justify-content: center;
-            bottom: 4px;
+            /* bottom: 4px; */
+            top: 4px;
         }
 
         .game-title {
@@ -113,15 +117,16 @@
         }
 
         .reset-level {
-            position: absolute;
+            /* position: absolute;
             bottom: 50px;
             font-size: 60px;
             line-height: 60px;
             left: calc(50% - 30px);
             width: 60px;
-            /* border: 1px black solid; */
             text-align: center;
-            cursor: pointer;
+            cursor: pointer; */
+            margin-left: auto;
+            margin-right: 4px;
         }
     </style>
 </head>
@@ -131,11 +136,12 @@
     <div class="game-title">
         No Space Game
     </div>
-    <div onclick="clearLevel()" class="reset-level">
+    
+    <!-- <div onclick="clearLevel()" class="reset-level">
         🗑
-    </div>
+    </div> -->
     <div class="footer">
-        <div style="margin-right: 10px;">
+        <div style="margin-right: 10px; margin-left: 8px">
             Level select:
         </div>
         <select id="level-select" onchange="onLevelSelect()">
@@ -150,6 +156,7 @@
             <option value="09" disabled>Level 9</option>
             <option value="cake" disabled>Cake</option>
         </select>
+        <button onclick="clearLevel()" class="reset-level">Reset level</button>
     </div>
 
     <div class="level-container">
@@ -440,7 +447,7 @@
 
     <script>
 
-        document.querySelectorAll(`option`).forEach(o => o.disabled = false);
+        // document.querySelectorAll(`option`).forEach(o => o.disabled = false);
 
         const GRID_SCALE = 50.0;
 
@@ -476,7 +483,7 @@
             node.appendChild(document.createElement('node-visual-b'));
             node.appendChild(document.createElement('node-visual-c'));
             let [n, level, x, y, z] = node.id.split('-').map((e) => e * GRID_SCALE);
-            node.style.transform = `translate3d(${x}px, ${y}px, ${z - 100}px)`;
+            node.style.transform = `translate3d(${x}px, ${y}px, ${z - 100 + 0}px)`;
             let id = node.id;
             node.onclick = () => onNodeClick(id);
         }
@@ -607,7 +614,7 @@
         // MISC FUNCTIONS
 
         function updateLevelRotation() {
-            currentLevel.style.transform = `perspective(750px) rotateX(${rotV}deg) rotateY(${rotH}deg)`;
+            currentLevel.style.transform = `perspective(500px) rotateX(${rotV}deg) rotateY(${rotH}deg) translate3d(-18px, 0, 0)`;
         }
 
         function beep() {
